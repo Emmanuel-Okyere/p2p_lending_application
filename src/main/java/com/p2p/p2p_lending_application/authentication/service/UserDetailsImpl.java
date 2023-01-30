@@ -18,6 +18,7 @@ public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private String username;
 
     private String fullName;
 
@@ -29,17 +30,18 @@ public class UserDetailsImpl implements UserDetails {
 
 //    private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String name, String email, String password) {
+    public UserDetailsImpl(Long id,String username, String name, String email, String password) {
         this.id = id;
         this.fullName = name;
         this.email = email;
         this.password = password;
+        this.username = username;
 //        this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(User user){
 //        List<GrantedAuthority> authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-        return new UserDetailsImpl(user.getId(), user.getFullName(), user.getEmailAddress(), user.getPassword());
+        return new UserDetailsImpl(user.getId(),user.getUsername(), user.getFullName(), user.getEmailAddress(), user.getPassword());
     }
 
 //    @Override
@@ -55,7 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
 

@@ -36,7 +36,14 @@ public class UserService {
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(Map.of("status","success","message","login success","accessToken",jwt,"refreshToken",refreshToken.getToken()));
+                .body(Map
+                        .of("status","success",
+                                "message","login success",
+                                "accessToken",jwt,
+                                "refreshToken",refreshToken.getToken(),
+                                "username",userDetails.getUsername(),
+                                "emailAddress",userDetails.getEmail(),
+                                "id",userDetails.getId()));
     }
 
     public ResponseEntity<?> createUser(User user) {
