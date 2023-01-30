@@ -28,6 +28,15 @@ public class JwtUtils {
                 .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMS))
                 .sign(Algorithm.HMAC512(jwtSecret));
     }
+    
+    public String generateTokenFromEmailAddress(String emailAddress){
+        return JWT
+                .create()
+                .withSubject(emailAddress)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMS))
+                .sign(Algorithm.HMAC512(jwtSecret));
+    }
     public boolean validateJwtToken(String jwt) {
         try {
             JWT.create().withJWTId(jwtSecret).withNullClaim(jwt);

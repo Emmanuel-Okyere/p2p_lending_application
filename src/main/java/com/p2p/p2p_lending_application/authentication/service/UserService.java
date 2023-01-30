@@ -1,12 +1,13 @@
 package com.p2p.p2p_lending_application.authentication.service;
 
+import com.p2p.p2p_lending_application.authentication.model.RefreshToken;
+
 import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.LoginRequest;
 import com.p2p.p2p_lending_application.authentication.payload.responseDTO.UserResponses;
 import com.p2p.p2p_lending_application.authentication.repository.UserRepository;
 import com.p2p.p2p_lending_application.authentication.security.jwt.JwtUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +27,24 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     private PasswordEncoder passwordEncoder;
-    private JwtUtils jwtUtils;
+    private RefreshTokenService refreshTokenService;
+    public JwtUtils jwtUtils;
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(),loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("status","success","message","login success","accessToken",jwt));
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map
+                        .of("status","success",
+                                "message","login success",
+                                "accessToken",jwt,
+                                "refreshToken",refreshToken.getToken(),
+                                "username",userDetails.getUsername(),
+                                "emailAddress",userDetails.getEmail(),
+                                "id",userDetails.getId()));
     }
 
     public ResponseEntity<?> createUser(User user) {
