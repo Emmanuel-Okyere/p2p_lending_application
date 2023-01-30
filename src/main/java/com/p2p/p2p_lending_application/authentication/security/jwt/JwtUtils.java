@@ -28,6 +28,7 @@ public class JwtUtils {
                 .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMS))
                 .sign(Algorithm.HMAC512(jwtSecret));
     }
+    
     public String generateTokenFromEmailAddress(String emailAddress){
         return JWT
                 .create()

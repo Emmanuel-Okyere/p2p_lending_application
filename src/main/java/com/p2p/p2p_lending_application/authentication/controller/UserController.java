@@ -25,6 +25,7 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RefreshTokenService refreshTokenService;
+    
     @PostMapping("register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequest registerRequest){
         User user = new User(registerRequest.getUsername(),registerRequest.getFullName(), registerRequest.getEmailAddress(),registerRequest.getPassword(),registerRequest.getConfirmPassword());
