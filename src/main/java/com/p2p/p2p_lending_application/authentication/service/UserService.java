@@ -1,12 +1,13 @@
 package com.p2p.p2p_lending_application.authentication.service;
 
 import com.p2p.p2p_lending_application.authentication.model.RefreshToken;
-
 import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.LoginRequest;
 import com.p2p.p2p_lending_application.authentication.payload.responseDTO.UserResponses;
 import com.p2p.p2p_lending_application.authentication.repository.UserRepository;
 import com.p2p.p2p_lending_application.authentication.security.jwt.JwtUtils;
+import com.p2p.p2p_lending_application.profile.model.UserProfile;
+import com.p2p.p2p_lending_application.profile.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private RefreshTokenService refreshTokenService;
     public JwtUtils jwtUtils;
+    private UserProfileRepository userProfileRepository;
+
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(),loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -59,6 +62,12 @@ public class UserService {
         user.setVerified(false);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        createUserProfile(user.getEmailAddress());
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponses("success","user created"));
+    }
+
+    private void createUserProfile(String emailAddress) {
+        Optional<User> user= userRepository.findByemailAddress(emailAddress);
+        userProfileRepository.save(new UserProfile(user.get()));
     }
 }
