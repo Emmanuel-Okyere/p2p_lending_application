@@ -5,7 +5,6 @@ import com.p2p.p2p_lending_application.authentication.model.RefreshToken;
 import com.p2p.p2p_lending_application.authentication.repository.RefreshTokenRepository;
 import com.p2p.p2p_lending_application.authentication.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

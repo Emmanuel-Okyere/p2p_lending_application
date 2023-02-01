@@ -3,7 +3,6 @@ package com.p2p.p2p_lending_application.authentication.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +22,7 @@ public class User {
     private String fullName;
     @Email
     private String emailAddress;
+    @JsonIgnore
     private String password;
 
     public User(String username, String fullName, String emailAddress, String password, String confirmPassword) {
@@ -34,12 +34,15 @@ public class User {
     }
 
     @Transient
+    @JsonIgnore
     private String confirmPassword;
     @JsonIgnore
     private Boolean verified;
     private Boolean approved;
+    @JsonIgnore
     @CreationTimestamp
     private Date createdAt;
+    @JsonIgnore
     @UpdateTimestamp
     private Date updatedAt;
 }

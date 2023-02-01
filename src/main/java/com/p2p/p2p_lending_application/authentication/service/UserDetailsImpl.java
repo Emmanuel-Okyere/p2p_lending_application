@@ -4,13 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class UserDetailsImpl implements UserDetails {
