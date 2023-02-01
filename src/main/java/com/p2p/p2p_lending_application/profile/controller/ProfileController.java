@@ -1,5 +1,6 @@
 package com.p2p.p2p_lending_application.profile.controller;
 
+import com.p2p.p2p_lending_application.profile.model.UserProfile;
 import com.p2p.p2p_lending_application.profile.payload.request.ProfileDTO;
 import com.p2p.p2p_lending_application.profile.service.ProfileService;
 import jakarta.validation.Valid;
@@ -23,7 +24,11 @@ public class ProfileController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createUserProfile(@RequestBody @Valid ProfileDTO profileDTO, HttpHeaders header){
+    public ResponseEntity<?> createUserProfile(@RequestBody @Valid ProfileDTO profileDTO, @RequestHeader HttpHeaders header){
         return profileService.createUserProfile(profileDTO,header);
     }
+//    @PatchMapping("/{portfolioID}")
+//    public ResponseEntity<?> updateUserProfile(@RequestBody UserProfile userProfile, @PathVariable Long portfolioID){
+//        return profileService.updateUserProfile(userProfile,portfolioID);
+//    }
 }

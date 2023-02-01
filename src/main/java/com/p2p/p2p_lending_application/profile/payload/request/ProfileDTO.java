@@ -1,9 +1,12 @@
 package com.p2p.p2p_lending_application.profile.payload.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.profile.model.NextOfKin;
 import com.p2p.p2p_lending_application.profile.model.Telephone;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 import java.util.List;
@@ -11,8 +14,14 @@ import java.util.List;
 public class ProfileDTO {
 
     private User user;
+    @NotNull
     private List<Telephone> telephoneNumber;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull
     private Date dateOfBirth;
+    @NotNull
+    @Length(min = 11, message = "digital format incorrect")
     private String digitalAddress;
+    @NotNull
     private NextOfKin nextOfKin;
 }

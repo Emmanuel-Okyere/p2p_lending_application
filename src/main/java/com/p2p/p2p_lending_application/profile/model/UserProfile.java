@@ -1,10 +1,10 @@
 package com.p2p.p2p_lending_application.profile.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "profile")
+@AllArgsConstructor
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,17 +20,25 @@ public class UserProfile {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private List<Telephone> telephoneNumber;
-    @NotNull
+
     private Date dateOfBirth;
-    @NotNull
+
     private String digitalAddress;
     @OneToOne
     @JoinColumn(name = "nextOfKin_id")
     private NextOfKin nextOfKin;
+    @JsonIgnore
     @UpdateTimestamp
     private Date createdAt;
+    @JsonIgnore
     @UpdateTimestamp
     private Date updatedAt;
+    public UserProfile(User user){
+        this.user = user;
+    }
+    public UserProfile(){
+    }
 }
