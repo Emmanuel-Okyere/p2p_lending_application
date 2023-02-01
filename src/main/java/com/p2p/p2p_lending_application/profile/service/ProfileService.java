@@ -40,14 +40,10 @@ public class ProfileService {
         String emailAddress = jwtUtils.getEmailFromJwtToken(token);
         Optional<User> user = userRepository.findByemailAddress(emailAddress);
         Optional<UserProfile> userProfile = userProfileRepository.findByUserId(user.get().getId());
-        if(userProfile.isPresent()){
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new UserProfileResponse("success",
-                            "profile fetch successful", userProfile.get()));
-        }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Map.of("status","failure","message","user has no profile"));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new UserProfileResponse("success",
+                        "profile fetch successful", userProfile.get()));
     }
 
     public ResponseEntity<?> createUserProfile(ProfileDTO profileDTO, HttpHeaders header) {
