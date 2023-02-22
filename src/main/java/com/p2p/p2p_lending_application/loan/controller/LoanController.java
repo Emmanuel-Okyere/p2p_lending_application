@@ -3,7 +3,6 @@ package com.p2p.p2p_lending_application.loan.controller;
 import com.p2p.p2p_lending_application.loan.payload.request.LoanDTO;
 import com.p2p.p2p_lending_application.loan.service.LoanService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

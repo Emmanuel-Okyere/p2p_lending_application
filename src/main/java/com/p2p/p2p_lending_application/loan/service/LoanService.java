@@ -8,7 +8,6 @@ import com.p2p.p2p_lending_application.loan.payload.request.LoanDTO;
 import com.p2p.p2p_lending_application.loan.repository.LoanRepository;
 import com.p2p.p2p_lending_application.profile.model.UserProfile;
 import com.p2p.p2p_lending_application.profile.repository.UserProfileRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

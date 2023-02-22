@@ -1,6 +1,5 @@
 package com.p2p.p2p_lending_application.profile.controller;
 
-import com.p2p.p2p_lending_application.profile.model.UserProfile;
 import com.p2p.p2p_lending_application.profile.payload.request.ProfileDTO;
 import com.p2p.p2p_lending_application.profile.service.ProfileService;
 import jakarta.validation.Valid;

@@ -2,7 +2,6 @@ package com.p2p.p2p_lending_application.authentication.controller;
 
 import com.p2p.p2p_lending_application.authentication.exception.TokenRefreshException;
 import com.p2p.p2p_lending_application.authentication.model.RefreshToken;
-import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.LoginRequest;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.RefreshTokenRequest;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.RegisterRequest;
@@ -26,8 +25,7 @@ public class UserController {
     
     @PostMapping("register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterRequest registerRequest){
-        User user = new User(registerRequest.getUsername(),registerRequest.getFullName(), registerRequest.getEmailAddress(),registerRequest.getPassword(),registerRequest.getConfirmPassword());
-        return userService.createUser(user);
+        return userService.createUser(registerRequest);
     }
 
     @PostMapping("login")
