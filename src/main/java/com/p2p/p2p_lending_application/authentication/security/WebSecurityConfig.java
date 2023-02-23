@@ -70,8 +70,10 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
-                .requestMatchers("/api/v1/loan/user")
+                .requestMatchers("/api/v1/loan/user-loans","/api/v1/loan/create")
                 .hasAuthority(ERole.BORROWER.name())
+                .requestMatchers("/api/v1/loan","/api/v1/loan/{loanId}","/api/v1/loan/lender-loans")
+                .hasAuthority(ERole.LENDER.name())
                 .anyRequest()
                 .authenticated();
         http.authenticationProvider(authenticationProvider());

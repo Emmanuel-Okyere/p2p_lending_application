@@ -1,5 +1,6 @@
 package com.p2p.p2p_lending_application.loan.controller;
 
+import com.p2p.p2p_lending_application.loan.payload.request.LoanAcceptDTO;
 import com.p2p.p2p_lending_application.loan.payload.request.LoanDTO;
 import com.p2p.p2p_lending_application.loan.service.LoanService;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -46,8 +45,14 @@ class LoanControllerTest {
 
     @Test
     void usersCanGetAllLoansThatAreNotApprovedYet() {
-        Mockito.doReturn(ResponseEntity.status(HttpStatus.OK).body("her")).when(loanService).getAllNonApprovedLoans();
-        loanService.getAllNonApprovedLoans();
-        Mockito.verify(loanService,Mockito.times(1)).getAllNonApprovedLoans();
+        Mockito.doReturn(ResponseEntity.status(HttpStatus.OK).body("her")).when(loanService).getAllLoansWithoutLenders();
+        loanService.getAllLoansWithoutLenders();
+        Mockito.verify(loanService,Mockito.times(1)).getAllLoansWithoutLenders();
+    }
+    @Test
+    void aLenderCanAcceptToLoan(){
+        Mockito.doReturn(ResponseEntity.status(HttpStatus.OK).body("her")).when(loanService).acceptToLoan(any(),any(),any());
+        loanService.acceptToLoan(new LoanAcceptDTO(BigDecimal.valueOf(12.45)),1L,headers);
+        Mockito.verify(loanService,Mockito.times(1)).acceptToLoan(any(),any(),any());
     }
 }

@@ -18,10 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +76,6 @@ class LoanServiceTest {
         String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjMyNEBnbWFpbC5jb20iLCJleHAiOjE2NzUyNTQxOTksImlhdCI6MTY3NTI1MDU5OX0.WjjFbG2vyMzud2rWum7aroagyENTfOZbV0d_OkLcsAM0CKbRHORTtutO0QBqxat_egSPKRpPGBjnlnX30jK-dA";
         Mockito.when(headers.getFirst(HttpHeaders.AUTHORIZATION)).thenReturn(token);
         Mockito.doReturn("gyateng94@gmail.com").when(jwtUtils).getEmailFromJwtToken(any());
-        Mockito.doReturn(user).when(userRepository).findByemailAddress(any());
         Mockito.doReturn(profile).when(userProfileRepository).findByUserId(user.get().getId());
         Mockito.doReturn(Optional.empty()).when(loanRepository).findByBorrowerAndApprovedIsFalse(user.get());
         ResponseEntity<?> response = loanService.requestLoan(loan,headers);
@@ -108,13 +105,12 @@ class LoanServiceTest {
     }
 
     @Test
-    void userCanGetAllNonApprovedLoans() {
+    void lenderUsersCanGetAllLoansWithoutLendersAndNotApproved() {
         //given
-        Mockito.doReturn(List.of(new Loan())).when(loanRepository).findAllByApprovedFalse();
+        Mockito.doReturn(List.of(new Loan())).when(loanRepository).findAllByLenderIsNull();
         //when
-        loanService.getAllNonApprovedLoans();
+        loanService.getAllLoansWithoutLenders();
         //then
-        Mockito.verify(loanRepository,Mockito.times(1)).findAllByApprovedFalse();
-
+        Mockito.verify(loanRepository,Mockito.times(1)).findAllByLenderIsNull();
     }
 }
