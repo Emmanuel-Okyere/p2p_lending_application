@@ -15,4 +15,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     List<Loan> findAllByLenderIsNull();
     List<Loan> findAllByLenderIsNotNull();
     List<Loan> findAllByLender(User borrower);
+    Optional<Loan> findByIdAndApprovedIsFalse(Long loanId);
 }

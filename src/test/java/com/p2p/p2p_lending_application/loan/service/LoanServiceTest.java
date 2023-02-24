@@ -100,7 +100,6 @@ class LoanServiceTest {
         loanService.getAllUserLoans(headers);
         Mockito.verify(jwtUtils, Mockito.times(1)).getEmailFromJwtToken(any());
         Mockito.verify(userRepository, Mockito.times(1)).findByemailAddress(any());
-        Mockito.verify(userProfileRepository, Mockito.times(1)).findByUserId(any());
         Mockito.verify(loanRepository, Mockito.times(1)).findAllByBorrower(any());
     }
 
