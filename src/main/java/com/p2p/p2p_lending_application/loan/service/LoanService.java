@@ -15,7 +15,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.*;
+
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class LoanService {
     @Autowired
@@ -112,10 +117,11 @@ public class LoanService {
         if(loan.isPresent()){
             Optional<Contract> contract = contractRepository.findByLoanId(loan.get());
             if(contract.isPresent()){
-                contract.get().setDuration(lenderContractSignRequest.getEndDate());
+                contract.get().setEndDate(lenderContractSignRequest.getEndDate());
                 contract.get().setLenderSignature(lenderContractSignRequest.getLenderSignature());
                 contract.get().setPaymentType(lenderContractSignRequest.getPaymentType());
                 contract.get().setUpdatedAt(new Date());
+                contract.get().setRemainingDays(contract.get().getRemainingDays());
                 Contract savedContract = contractRepository.save(contract.get());
                 return ResponseEntity.ok(savedContract);
             }
@@ -131,11 +137,20 @@ public class LoanService {
             if(contract.isPresent()){
                 contract.get().setBorrowerSignature(borrowerContractSignRequest.getBorrowerSignature());
                 contract.get().setUpdatedAt(new Date());
+                contract.get().setRemainingDays(contract.get().getRemainingDays());
                 Contract savedContract = contractRepository.save(contract.get());
                 return ResponseEntity.ok(savedContract);
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status","failure","message","not found"));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status","failure","message","not found"));
+    }
+    public ResponseEntity<?> getAContract(Long loanId) {
+        Optional<Contract> contract = contractRepository.findById(loanId);
+        if(contract.isPresent()){
+            contract.get().setRemainingDays(contract.get().getRemainingDays());
+            return ResponseEntity.ok(contract);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","not found", "status","failure"));
     }
 }

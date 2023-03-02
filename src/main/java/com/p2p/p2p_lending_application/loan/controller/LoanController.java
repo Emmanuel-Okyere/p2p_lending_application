@@ -52,4 +52,8 @@ public class LoanController {
                                                     @RequestBody @Valid BorrowerContractSignRequest borrowerContractSignRequest){
         return loanService.borrowerSignsContract(loanId,borrowerContractSignRequest);
     }
+    @GetMapping("{loanId}/contract")
+    public ResponseEntity<?> getBorrowerContract(@PathVariable Long loanId){
+        return loanService.getAContract(loanId);
+    }
 }
