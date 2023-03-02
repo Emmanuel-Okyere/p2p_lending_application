@@ -12,5 +12,8 @@ import java.util.Optional;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
     Optional<Loan> findByBorrowerAndApprovedIsFalse(User borrower);
     List<Loan> findAllByBorrower(User borrower);
-    List<Loan> findAllByApprovedFalse();
+    List<Loan> findAllByLenderIsNull();
+    List<Loan> findAllByLenderIsNotNull();
+    List<Loan> findAllByLender(User borrower);
+    Optional<Loan> findByIdAndApprovedIsFalse(Long loanId);
 }

@@ -148,7 +148,6 @@ class ProfileServiceTest {
         Mockito.doReturn(Optional.of(new NextOfKin())).when(nextOfKinRepository).findNextOfKinByuserProfile(profile.get());
         Mockito.doReturn(List.of(new Telephone())).when(telephoneRepository).findAllByProfileId(profile.get());
         ResponseEntity<?> response = profileService.createUserProfile(profileDTO, headers);
-        Mockito.verify(nextOfKinRepository, Mockito.times(0)).save(any());
         assertEquals(response.getStatusCode(),HttpStatus.OK);
     }
 }

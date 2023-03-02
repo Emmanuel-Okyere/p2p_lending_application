@@ -1,11 +1,16 @@
 package com.p2p.p2p_lending_application.authentication.service;
 
+import com.p2p.p2p_lending_application.authentication.model.ERole;
+import com.p2p.p2p_lending_application.authentication.model.Role;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.authentication.payload.requestDTO.LoginRequest;
+import com.p2p.p2p_lending_application.authentication.payload.requestDTO.RegisterRequest;
+import com.p2p.p2p_lending_application.authentication.repository.RoleRepository;
 import com.p2p.p2p_lending_application.authentication.repository.UserRepository;
 import com.p2p.p2p_lending_application.authentication.security.jwt.JwtUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +36,8 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     @MockBean
     private JwtUtils jwtUtils;
+    @MockBean
+    private RoleRepository roleRepository;
     @Autowired
     private UserService userService;
     @BeforeEach
@@ -55,30 +62,44 @@ class UserServiceTest {
                 "emmna@gmail.com",
                 "password",
                 "password"));
+        RegisterRequest registerRequest = new RegisterRequest("Emmanuel",
+                "Emmanuel Okyere Gyateng",
+                "emmna@gmail.com",
+                "ADMIN",
+                "password",
+                "password");
+        Optional<Role> role = Optional.of(new Role(ERole.ADMIN));
         Mockito.doReturn(user).when(userRepository).findByemailAddress(any());
-        ResponseEntity<?> response = userService.createUser(user.get());
+        Mockito.doReturn(role).when(roleRepository).findByName(any());
+        ResponseEntity<?> response = userService.createUser(registerRequest);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
     @Test
     void userEmailDoesNotExistButPasswordLengthIsLessThan8SoHttpBadRequestShouldBeReturned(){
-        Optional<User> user = Optional.of(new User("Emmanuel",
+        RegisterRequest registerRequest = new RegisterRequest("Emmanuel",
                 "Emmanuel Okyere Gyateng",
                 "emmna@gmail.com",
+                "ADMIN",
                 "passwo",
-                "passwo"));
+                "passwo");
+        Optional<Role> role = Optional.of(new Role(ERole.ADMIN));
+        Mockito.doReturn(role).when(roleRepository).findByName(any());
         Mockito.doReturn(Optional.empty()).when(userRepository).findByemailAddress(any());
-        ResponseEntity<?> response = userService.createUser(user.get());
+        ResponseEntity<?> response = userService.createUser(registerRequest);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
     @Test
     void userEmailDoesNotExistButPasswordAndConfirmPasswordDoNotMatchSoHttpBadRequestShouldBeReturned(){
-        Optional<User> user = Optional.of(new User("Emmanuel",
+        RegisterRequest registerRequest = new RegisterRequest("Emmanuel",
                 "Emmanuel Okyere Gyateng",
                 "emmna@gmail.com",
+                "ADMIN",
                 "password",
-                "pass"));
+                "pass");
+        Optional<Role> role = Optional.of(new Role(ERole.ADMIN));
+        Mockito.doReturn(role).when(roleRepository).findByName(any());
         Mockito.doReturn(Optional.empty()).when(userRepository).findByemailAddress(any());
-        ResponseEntity<?> response = userService.createUser(user.get());
+        ResponseEntity<?> response = userService.createUser(registerRequest);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
     @Test
@@ -88,9 +109,17 @@ class UserServiceTest {
                 "emmna@gmail.com",
                 "password",
                 "password");
+        RegisterRequest registerRequest = new RegisterRequest("Emmanuel",
+                "Emmanuel Okyere Gyateng",
+                "emmna@gmail.com",
+                "ADMIN",
+                "password",
+                "password");
+        Optional<Role> role = Optional.of(new Role(ERole.ADMIN));
+        Mockito.doReturn(role).when(roleRepository).findByName(any());
         Mockito.doReturn(Optional.empty()).when(userRepository).findByemailAddress(any());
         Mockito.doReturn(user).when(userRepository).save(user);
-        ResponseEntity<?> response = userService.createUser(user);
+        ResponseEntity<?> response = userService.createUser(registerRequest);
         assertEquals(response.getStatusCode() ,HttpStatus.CREATED);
     }
 }

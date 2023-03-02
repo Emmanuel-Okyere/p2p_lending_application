@@ -1,5 +1,6 @@
 package com.p2p.p2p_lending_application.authentication.security;
 
+import com.p2p.p2p_lending_application.authentication.model.ERole;
 import com.p2p.p2p_lending_application.authentication.security.jwt.AuthenticationEntryPointJwt;
 import com.p2p.p2p_lending_application.authentication.security.jwt.AuthenticationTokenFilter;
 import com.p2p.p2p_lending_application.authentication.service.UserDetailsServiceImpl;
@@ -69,6 +70,12 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
+                .requestMatchers("/api/v1/loan/user-loans","/api/v1/loan/create","/api/v1/loan/borrower/{loanId}/contract")
+                .hasAuthority(ERole.BORROWER.name())
+                .requestMatchers("/api/v1/loan/lender","/api/v1/loan/{loanId}","/api/v1/loan/lender-loans","/api/v1/loan/lender/{loanId}/contract")
+                .hasAuthority(ERole.LENDER.name())
+                .requestMatchers("/api/v1/loan/admin","/api/v1/loan/admin/{loanId}")
+                .hasAuthority(ERole.ADMIN.name())
                 .anyRequest()
                 .authenticated();
         http.authenticationProvider(authenticationProvider());
