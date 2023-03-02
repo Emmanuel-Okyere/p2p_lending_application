@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -23,8 +25,11 @@ public class User {
     @Email
     private String emailAddress;
     @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "users_role",joinColumns = @JoinColumn(name = "users_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role = new HashSet<>();
+    @JsonIgnore
     private String password;
-
     public User(String username, String fullName, String emailAddress, String password, String confirmPassword) {
         this.username = username;
         this.fullName = fullName;

@@ -2,7 +2,6 @@ package com.p2p.p2p_lending_application.loan.model;
 
 import com.p2p.p2p_lending_application.authentication.model.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.NoArgsConstructor;

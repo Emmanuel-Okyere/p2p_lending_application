@@ -36,14 +36,10 @@ class UserControllerTest {
                 "Emmanuel",
                 "Emmanuel Okyere Gyateng",
                 "emmna@gmail.com",
+                "ADMIN",
                 "password",
                 "password");
-        User user = new User("Emmanuel",
-                "Emmanuel Okyere Gyateng",
-                "emmna@gmail.com",
-                "password",
-                "password");
-        Mockito.doReturn(ResponseEntity.status(HttpStatus.CREATED).body("user created")).when(userService).createUser(user);
+        Mockito.doReturn(ResponseEntity.status(HttpStatus.CREATED).body("user created")).when(userService).createUser(registerRequest);
         userController.registerUser(registerRequest);
         Mockito.verify(userService,Mockito.times(1)).createUser(any());
     }

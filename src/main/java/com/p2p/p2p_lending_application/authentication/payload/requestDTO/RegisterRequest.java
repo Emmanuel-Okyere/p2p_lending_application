@@ -15,6 +15,7 @@ public class RegisterRequest {
     private String fullName;
     @Email
     private String emailAddress;
+    private String role;
     private String password;
     private String confirmPassword;
 }
