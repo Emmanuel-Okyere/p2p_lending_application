@@ -35,9 +35,7 @@ public class ProfileService {
     private NextOfKinRepository nextOfKinRepository;
 
     public ResponseEntity<?> getUserProfile(HttpHeaders header) {
-        String token  = Objects.requireNonNull(header.getFirst(HttpHeaders.AUTHORIZATION)).substring(7);
-        String emailAddress = jwtUtils.getEmailFromJwtToken(token);
-        Optional<User> user = userRepository.findByemailAddress(emailAddress);
+        Optional<User> user = getUserFromHeader(header);
         Optional<UserProfile> userProfile = userProfileRepository.findByUserId(user.get().getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -46,11 +44,16 @@ public class ProfileService {
     }
 
     public ResponseEntity<?> createUserProfile(ProfileDTO profileDTO, HttpHeaders header) {
-        String token  = Objects.requireNonNull(header.getFirst(HttpHeaders.AUTHORIZATION)).substring(7);
-        String emailAddress = jwtUtils.getEmailFromJwtToken(token);
-        Optional<User> user = userRepository.findByemailAddress(emailAddress);
+        Optional<User> user = getUserFromHeader(header);
         Optional<UserProfile> userProfile = userProfileRepository.findByUserId(user.get().getId());
         Optional<NextOfKin> nextOfKin = nextOfKinRepository.findNextOfKinByuserProfile(userProfile.get());
+        List<Telephone> listOfTelephoneNumbers = profileDTO.getTelephoneNumber();
+        for (Telephone telephone : listOfTelephoneNumbers){
+            Optional<Telephone> telephoneNumber = telephoneRepository.findByNumber(telephone.getNumber());
+            if(telephoneNumber.isPresent()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status","failure","message","telephone number already exists"));
+            }
+        }
         List<String> telephones = telephoneRepository.findAllByProfileId(userProfile.get())
                 .stream().map(Telephone::getNumber).toList();
         for(Telephone telephone : profileDTO.getTelephoneNumber()){
@@ -84,4 +87,10 @@ public class ProfileService {
 //        Optional<UserProfile> userProfile1 = userProfileRepository.findById(portfolioID);
 //        userProfileRepository.save(userProfile1.get());
 //    }
+
+    public Optional<User> getUserFromHeader(HttpHeaders headers){
+        String token  = Objects.requireNonNull(headers.getFirst(HttpHeaders.AUTHORIZATION)).substring(7);
+        String emailAddress = jwtUtils.getEmailFromJwtToken(token);
+        return userRepository.findByemailAddress(emailAddress);
+    }
 }
