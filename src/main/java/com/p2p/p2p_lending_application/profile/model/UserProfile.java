@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Data
@@ -24,7 +25,7 @@ public class UserProfile {
     @JoinColumn(name = "profile_id")
     private List<Telephone> telephoneNumber;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private String digitalAddress;
     @OneToOne
