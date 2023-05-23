@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Data
@@ -16,9 +17,9 @@ public class ProfileDTO {
     private User user;
     @NotNull
     private List<Telephone> telephoneNumber;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @NotNull
     @Length(min = 11, message = "digital format incorrect")
     private String digitalAddress;

@@ -1,13 +1,14 @@
 package com.p2p.p2p_lending_application.loan.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Entity
 @Data
@@ -20,7 +21,9 @@ public class Contract {
     private Loan loanId;
     private String borrowerSignature;
     private String lenderSignature;
-    private Date duration;
+    private LocalDate endDate;
+    @Transient
+    private Long remainingDays;
     private String paymentType;
     @UpdateTimestamp
     private Date createdAt;
@@ -30,5 +33,9 @@ public class Contract {
     public Contract(Loan loanId, String paymentType) {
         this.loanId = loanId;
         this.paymentType = paymentType;
+    }
+    public Long getRemainingDays(){
+        LocalDate nowDate = LocalDate.now();
+        return DAYS.between(nowDate,this.endDate);
     }
 }

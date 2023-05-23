@@ -1,5 +1,6 @@
 package com.p2p.p2p_lending_application.profile.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Data
@@ -23,8 +25,7 @@ public class UserProfile {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private List<Telephone> telephoneNumber;
-
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private String digitalAddress;
     @OneToOne
