@@ -17,7 +17,7 @@ public class ProfileDTO {
     private User user;
     @NotNull
     private List<Telephone> telephoneNumber;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull
