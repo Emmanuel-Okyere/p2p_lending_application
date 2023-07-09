@@ -1,6 +1,5 @@
 package com.p2p.p2p_lending_application.profile.controller;
 
-import com.p2p.p2p_lending_application.loan.payload.request.LoanDTO;
 import com.p2p.p2p_lending_application.profile.payload.request.ProfileDTO;
 import com.p2p.p2p_lending_application.profile.service.ProfileService;
 import org.junit.jupiter.api.Test;
@@ -13,10 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest

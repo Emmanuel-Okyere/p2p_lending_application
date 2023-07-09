@@ -1,6 +1,5 @@
 package com.p2p.p2p_lending_application.profile.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import jakarta.persistence.*;
