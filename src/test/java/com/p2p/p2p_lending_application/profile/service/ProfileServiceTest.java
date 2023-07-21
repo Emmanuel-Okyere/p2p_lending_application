@@ -3,7 +3,6 @@ package com.p2p.p2p_lending_application.profile.service;
 import com.p2p.p2p_lending_application.authentication.model.User;
 import com.p2p.p2p_lending_application.authentication.repository.UserRepository;
 import com.p2p.p2p_lending_application.authentication.security.jwt.JwtUtils;
-import com.p2p.p2p_lending_application.loan.payload.request.LoanDTO;
 import com.p2p.p2p_lending_application.profile.model.NextOfKin;
 import com.p2p.p2p_lending_application.profile.model.Telephone;
 import com.p2p.p2p_lending_application.profile.model.UserProfile;
@@ -20,12 +19,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 class ProfileServiceTest {
